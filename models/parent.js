@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     dateOfBirth: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: true,
     },
     address: {
@@ -42,11 +42,8 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  Parent.assiciate = (models) => {
-    Parent.hasMany(models.student, {
-      foreignkey: 'parentId',
-      as: 'children'
-    })
+  Parent.associate = (models) => {
+    Parent.hasMany(models.Student)
   }
 
   return Parent;

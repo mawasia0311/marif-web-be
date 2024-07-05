@@ -8,20 +8,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     gender: {
       type: DataTypes.STRING,
       allowNull: true,
     },
     dateOfBirth: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    class: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    section: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: true,
     },
     address: {
@@ -45,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     dateOfJoining: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: true,
     },
     isActive: {
@@ -55,9 +51,10 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Student.associate = function (models) {
-    Student.belongsTo(models.Parent, {
-      foreignkey: 'parentId',
-      as: 'parent'
+    Student.belongsTo(models.Parent);
+
+    Student.belongsTo(models.Class, {
+      foreignkey: 'classId',
     });
   };
 

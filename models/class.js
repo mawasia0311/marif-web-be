@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       as: 'classTeacher'
     })
     Class.hasMany(models.ClassEvent);
+    Class.hasMany(models.Student);
   }
 
   return Class;

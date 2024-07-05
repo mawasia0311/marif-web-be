@@ -1,69 +1,86 @@
+// resolvers/parentResolver.js
+
 const { Parent, Student } = require('../models');
 
-const createParent = async (parentData) => {
+// Create a new parent
+const createParent = async (req, res) => {
   try {
-    const parent = await Parent.create(parentData);
-    return parent;
-  } catch (err) {
-    throw new Error(err.message);
+    const newParent = await Parent.create(req.body);
+    res.status(201).json(newParent);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };
 
-const getAllParents = async (where = {}) => {
+// Get all parents
+const getAllParents = async (req, res) => {
   try {
     const parents = await Parent.findAll({
-      where,
+      include: {
+        model: Student,
+      }
     });
-    // Fetch children (students) for each parent manually
-    const parentsWithChildren = await Promise.all(parents.map(async (parent) => {
-      const children = await Student.findAll({
-        where: { parentId: parent.id }
-      });
-      return {
-        ...parent.toJSON(),
-        children
-      };
-    }));
-    return parentsWithChildren;
-  } catch (err) {
-    throw new Error(err.message);
+    res.json(parents);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };
 
-const updateParent = async (id, parentData) => {
+// Get a single parent by ID
+const getParentById = async (req, res) => {
+  const { id } = req.params;
   try {
-    const [updated] = await Parent.update(parentData, {
-      where: { id }
+    const parent = await Parent.findByPk(id, {
+      include: {
+        model: Student,
+      }
+    });
+    if (!parent) throw new Error('Parent not found');
+    res.json(parent);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
+
+// Update a parent by ID
+const updateParent = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [updated] = await Parent.update(req.body, {
+      where: { id },
     });
     if (updated) {
       const updatedParent = await Parent.findByPk(id);
-      return updatedParent;
+      res.json(updatedParent);
     } else {
       throw new Error('Parent not found');
     }
-  } catch (err) {
-    throw new Error(err.message);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
   }
 };
 
-const deleteParent = async (id) => {
+// Delete a parent by ID
+const deleteParent = async (req, res) => {
+  const { id } = req.params;
   try {
     const deleted = await Parent.destroy({
-      where: { id }
+      where: { id },
     });
     if (deleted) {
-      return { message: 'Parent deleted successfully' };
+      res.status(204).send();
     } else {
       throw new Error('Parent not found');
     }
-  } catch (err) {
-    throw new Error(err.message);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
   }
 };
 
 module.exports = {
   createParent,
   getAllParents,
+  getParentById,
   updateParent,
   deleteParent,
 };

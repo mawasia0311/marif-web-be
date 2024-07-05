@@ -5,10 +5,14 @@ const {
   getAllParents,
   updateParent,
   deleteParent,
+  getParentById
 } = require('../resolvers/parentResolvers');
 
 // GET all parents
 router.get('/', getAllParents);
+
+// GET parents by PK
+router.get('/:id', getParentById);
 
 // POST create a new parent
 router.post('/', createParent);

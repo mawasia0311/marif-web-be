@@ -17,6 +17,10 @@ db.TrainingContent = require('./trainingContent')(sequelize, Sequelize);
 db.Staff = require('./staff')(sequelize, Sequelize);
 db.Class = require('./class')(sequelize, Sequelize);
 db.ClassEvent = require('./classEvent')(sequelize, Sequelize);
+db.Diary = require('./diary')(sequelize, Sequelize);
+db.Quiz = require('./quiz')(sequelize, Sequelize);
+db.Question = require('./question')(sequelize, Sequelize);
+db.Option = require('./option')(sequelize, Sequelize);
 
 // Define associations
 Object.values(db)
