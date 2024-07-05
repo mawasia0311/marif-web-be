@@ -17,19 +17,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     links: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.STRING,
       allowNull: true,
     },
     type: {
-      type: DataTypes.ENUM('homework', 'note'),
+      type: DataTypes.STRING,
       allowNull: true,
     },
     downloadableResources: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: true,
-    },
-    selectedStudents: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.STRING,
       allowNull: true,
     },
     activityId: {
